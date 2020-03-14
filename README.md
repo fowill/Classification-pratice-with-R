@@ -41,7 +41,7 @@ K-中间点聚类（K-Medoids），是一种类似于K-Means的算法。其为�
 ### 1.1 预处理与探索
 Iris数据集的特征值不多，仅仅包括花萼和花瓣的长宽度，但仍然包括4维特征值，难以进行可视化，因此我们选取花萼的长宽来对数据集做一个初步的认识，可以看到不同的鸢尾花被分为三类，且有着较为明晰的分类界限。
 
-![Figure1] (https://github.com/fowill/Classification-pratice-with-R/blob/master/plot/Picture1.png)
+![Figure1](https://github.com/fowill/Classification-pratice-with-R/blob/master/plot/Picture1.png)
  
 ### 1.2 部署聚类算法
 第一步，我们采用K-Means算法进行聚类，为了和鸢尾花的种类保持一致，将簇的个数k限定为3个。计算得到组间平方和占总平方和百分比为88.4%，说明在三个簇的情况下，聚类结果尚可。
