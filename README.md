@@ -59,9 +59,10 @@ Iris数据集的特征值不多，仅仅包括花萼和花瓣的长宽度，但�
 
 系谱聚类的另一个特点是其可以进行剪枝，更好地符合我们聚类的需求。我们通过设定高度H和簇数K来完成剪枝。如下表所示：
 
-	簇1	簇2	簇3
-H=6，K不做限制	78	72	None
-K=3，H不做限制	50	72	28
+簇1 | 簇2 | 簇3
+-- | -- | ---
+H=6，K不做限制 | 78 | 72 | None
+K=3，H不做限制 | 50 | 72 | 28
 
 至于K和H值的选定，往往是通过实验结果结合自己需求所得出。
 
@@ -171,11 +172,11 @@ Wine数据集希望我们使用提供的14个属性来对3个不同种类的红�
 
 # Part4 Reference
 
-黄文、王正林：《数据挖掘实战》
-Pang-Ning Tan：《Introduction to Data Mining》
-Brett Lantz：《Machine Learning with R》
-Jared Lander：《R for Everyone》
-Cookbook for R： http://www.cookbook-r.com/
+黄文、王正林：《数据挖掘实战》 
+Pang-Ning Tan：《Introduction to Data Mining》 
+Brett Lantz：《Machine Learning with R》 
+Jared Lander：《R for Everyone》 
+Cookbook for R： http://www.cookbook-r.com/ 
 
 
 
