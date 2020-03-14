@@ -40,17 +40,23 @@ K-中间点聚类（K-Medoids），是一种类似于K-Means的算法。其为�
 
 ### 1.1 预处理与探索
 Iris数据集的特征值不多，仅仅包括花萼和花瓣的长宽度，但仍然包括4维特征值，难以进行可视化，因此我们选取花萼的长宽来对数据集做一个初步的认识，可以看到不同的鸢尾花被分为三类，且有着较为明晰的分类界限。
+
 ![Figure1](https://github.com/fowill/Classification-pratice-with-R/blob/master/plot/Picture1.png)
+
 ### 1.2 部署聚类算法
 第一步，我们采用K-Means算法进行聚类，为了和鸢尾花的种类保持一致，将簇的个数k限定为3个。计算得到组间平方和占总平方和百分比为88.4%，说明在三个簇的情况下，聚类结果尚可。
 我们接着采取穷举实验的方法来寻找最佳簇数k，以组间平方和占总平方和百分比作为评估指标，得到结果如下所示：
+
 ![Figure2](https://github.com/fowill/Classification-pratice-with-R/blob/master/plot/Picture2.png)
+
 可以看出，在簇数k取66的情况下，组间平方和占总平方和达到了99.5%，此后基本保持不变。然而，猜簇数k仅仅取10的情况下，百分比便可达到95.4%。说明对于鸢尾花数据集这种较小数据集，一味增加簇的个数是不可取的，并不有利于我们进行聚类。
 
 第二步，我们尝试使用K- Medoids方法进行聚类。由于方法与K-Means基本一致，因此这里不过多介绍。
 
 第三步，我们使用系谱聚类方法。使用欧式距离来生成Iris数据集的距离矩阵，在展开系谱聚类，生成如下的系谱图：
+
 ![Figure3](https://github.com/fowill/Classification-pratice-with-R/blob/master/plot/Picture3.png)
+
 由于系谱聚类会优先生成偶数个簇，正如图上表明，最终聚类的结果有1、2、4、8、16……个簇。但如果我们仔细观察，可以发现在划分成4个簇时，产生了“3个大簇+1个小簇”的状况，在一定程度上反应了“一共有三种鸢尾花”的事实。
 
 系谱聚类的另一个特点是其可以进行剪枝，更好地符合我们聚类的需求。我们通过设定高度H和簇数K来完成剪枝。如下表所示：
@@ -80,14 +86,14 @@ K=3，H不做限制 | 50 | 72 | 28
 从表中可以看出，实验结果符合预期：当EPS与MinPts的差值变大时，得到的类别数k即簇数也越小。
 
 第五步，使用EM最大化聚类。使用Mclust程序包，根据BIC指标，各大模型的表现如图所示：
+
 ![Figure4](https://github.com/fowill/Classification-pratice-with-R/blob/master/plot/Picture4.png)
  
-
 由图可以看出，算法根据BIC选出的最佳模型类型为VEV，最佳簇数为2。
 
 在此顺便给出Mclust聚类结果的概率图：
 
- 
+![Figure5](https://github.com/fowill/Classification-pratice-with-R/blob/master/plot/Picture5.png)
 
 至此，完成了对于Iris数据集的聚类练习。
 
@@ -120,16 +126,17 @@ K=3，H不做限制 | 50 | 72 | 28
 ### 3.1 方法一：筛选属性
 Wine数据集希望我们使用提供的14个属性来对3个不同种类的红酒进行分析。面对这样多的属性，我们首先可以通过计算属性间的相关矩阵、来分析它们之间的联系，如下图所示：
 
- 
+![Figure6](https://github.com/fowill/Classification-pratice-with-R/blob/master/plot/Picture6.png)
 
 通过相关矩阵中两两属性之间的相似度，我们可以筛选出相关度不高的彼此独立的属性，以它们作为聚类的重要指标。相对应地，弱化那些相关度高的属性，因为它们包含了相近的信息。
 
 同时，我们也可以绘制样本点在部分属性轴上的投影，更好地观察哪几对属性能够对于样本整体起到更好的划分作用：
 
- 
+![Figure7](https://github.com/fowill/Classification-pratice-with-R/blob/master/plot/Picture7.png)
 
 通过上图分别观察各对属性下样本的分布后，我们可以缩小需要观察属性的范围，以便进一步搜索。例如，假设我们对于“Ash”和“Alcalinity of ash”这一对属性（即图中红圈部分）非常感兴趣，我们可以针对这对属性单独绘制一张样本分布情况图：
 
+![Figure8](https://github.com/fowill/Classification-pratice-with-R/blob/master/plot/Picture8.png)
  
 
 可以看到，在“Ash”和“Alcalinity of ash”这对属性的维度下，不同类别的样本点能够呈现较为清晰的区隔分布，因此这一对属性对于聚类是有比较重要的参考价值的。
@@ -147,15 +154,17 @@ Wine数据集希望我们使用提供的14个属性来对3个不同种类的红�
 
 在R中，我们采用princomp函数进行PCA操作。
 
+![Figure9](https://github.com/fowill/Classification-pratice-with-R/blob/master/plot/Picture9.png)
  
 由图可知，PCA操作将原有的属性“压缩”成了10个成分，其中，第一和第二成分包含的信息最多。事实上，如果选用前三个成分，我们就可以得到绝大部分原有属性包含的信息用来执行聚类。
 
 我们不妨取第一成分和第二成分为依照进行聚类：
 
- 
+![Figure10](https://github.com/fowill/Classification-pratice-with-R/blob/master/plot/Picture10.png)
 
 令人惊喜的是，样本数据在这两个主成分方向上的投影变得非常有规律，仅凭肉眼都可以给三类样本画出清晰的边界。
 
+![Figure11](https://github.com/fowill/Classification-pratice-with-R/blob/master/plot/Picture11.png)
  
 通过这样的实验，我们初步领会了PCA降维给聚类带来的便利性，这样的便利性不仅是体现在结果的准确上，也是体现在可视化的方便和分析的容易入手上。
 
